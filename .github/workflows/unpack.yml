@@ -1,0 +1,31 @@
+name: Unpack
+
+on:
+  push:
+    paths: ["invite-project.zip"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Unzip and copy to repo root
+        run: |
+          test -f invite-project.zip || { echo "zip 없음, 종료"; exit 0; }
+          unzip -q invite-project.zip -d /tmp/x
+          rm -rf /tmp/x/wedding-invitation/.github
+          rm invite-project.zip
+          cp -a /tmp/x/wedding-invitation/. .
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: unpack invite-project.zip"
+          git push
