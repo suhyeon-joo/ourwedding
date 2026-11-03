@@ -18,9 +18,12 @@ jobs:
         run: |
           test -f invite-project.zip || { echo "zip 없음, 종료"; exit 0; }
           unzip -q invite-project.zip -d /tmp/x
-          rm -rf /tmp/x/wedding-invitation/.github
+          rm -rf /tmp/x/__MACOSX
+          SRC=/tmp/x/invite-project/wedding-invitation
+          test -d "$SRC" || { echo "경로 없음. 실제 구조:"; find /tmp/x -maxdepth 3; exit 1; }
+          rm -rf "$SRC/.github"
           rm invite-project.zip
-          cp -a /tmp/x/wedding-invitation/. .
+          cp -a "$SRC"/. .
 
       - name: Commit and push
         run: |
