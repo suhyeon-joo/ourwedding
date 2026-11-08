@@ -5,3 +5,9 @@
 node_modules/
 .vscode/
 .idea/
+
+# 원본 고해상도 사진(장당 약 20MB) — 웹용은 images/gallery/ 사용
+images/gallery-[0-9][0-9].jpg
+images/LOWE*.jpg
+images/naver_map*.png
+build/
