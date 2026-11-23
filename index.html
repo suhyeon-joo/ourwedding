@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>{{GROOM_NAME}} ♡ {{BRIDE_NAME}} — 2027.03.01 결혼합니다</title>
+
+  <meta name="description" content="{{GROOM_NAME}} {{BRIDE_NAME}}의 결혼식에 귀한 걸음 부탁드립니다. 2027년 3월 1일 월요일 오후 12시 30분, 선릉 르비르모어 클리타홀.">
+
+  <!-- Open Graph / Kakao share preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{GROOM_NAME}} ♡ {{BRIDE_NAME}} 결혼합니다">
+  <meta property="og:description" content="2027년 3월 1일 월요일 오후 12시 30분 · 선릉 르비르모어 클리타홀">
+  <meta property="og:image" content="images/og-thumbnail.png">
+  <meta property="og:url" content="">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{GROOM_NAME}} ♡ {{BRIDE_NAME}} 결혼합니다">
+  <meta name="twitter:description" content="2027년 3월 1일 월요일 오후 12시 30분 · 선릉 르비르모어 클리타홀">
+  <meta name="twitter:image" content="images/og-thumbnail.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 배경: 꽃잎 파티클 캔버스 (reduced-motion 환경에서는 script가 초기화하지 않음) -->
+  <canvas class="bg-petals" aria-hidden="true"></canvas>
+
+  <!-- reduced-motion 대체: 정적 꽃잎 -->
+  <div class="bg-petals-static" aria-hidden="true">
+    <span class="sp sp-1"></span><span class="sp sp-2"></span><span class="sp sp-3"></span><span class="sp sp-4"></span>
+  </div>
+
+  <!-- 음악 토글 -->
+  <button class="music-toggle" id="music-toggle" type="button" aria-label="배경 음악 재생/일시정지" aria-pressed="false">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+  </button>
+  <audio id="bgm" src="audio/bgm.mp3" loop preload="none"></audio>
+
+  <main class="card" id="card">
+
+    <!-- 1. HERO -->
+    <section class="hero reveal" aria-label="청첩장 메인">
+      <p class="hero-en">결혼식에 초대드립니다</p>
+      <div class="hero-names">
+        <span class="name">{{GROOM_NAME}}</span>
+        <span class="amp" aria-hidden="true">&amp;</span>
+        <span class="name">{{BRIDE_NAME}}</span>
+      </div>
+      <p class="hero-date">2027. 03. 01 &nbsp;·&nbsp; 월요일 &nbsp;·&nbsp; 오후 12:30</p>
+      <div class="hero-photo">
+        <img src="images/hero.jpg" alt="{{GROOM_NAME}} {{BRIDE_NAME}} 웨딩 사진" width="1600" height="2399" fetchpriority="high" draggable="false">
+      </div>
+      <p class="hero-scroll">scroll</p>
+    </section>
+
+    <!-- 2. GREETING -->
+    <section class="section reveal" aria-labelledby="greeting-title">
+      <h2 class="eyebrow" id="greeting-title">초대장</h2>
+      <p class="greeting">
+        봄바람이 불어오는 3월,<br>
+        두 사람이 같은 길을 걸으려 합니다.
+      </p>
+      <p class="greeting">
+        서로를 가장 가까이서 바라보며 쌓아온 시간을<br>
+        이제 부부라는 이름으로 이어가려 합니다.
+      </p>
+      <p class="greeting">
+        귀한 걸음으로 함께해 주신다면<br>
+        더없는 기쁨이겠습니다.
+      </p>
+    </section>
+
+    <!-- 3. PARENTS / COUPLE -->
+    <section class="section reveal" aria-label="신랑 신부 소개">
+      <div class="divider" aria-hidden="true"></div>
+      <div class="family">
+        <p class="family-line">
+          <span class="parents">{{GROOM_FATHER_NAME}} · {{GROOM_MOTHER_NAME}}</span>의 <span class="rank">장남</span>
+        </p>
+        <p class="family-name">{{GROOM_NAME}}</p>
+      </div>
+      <div class="family">
+        <p class="family-line">
+          <span class="parents">{{BRIDE_FATHER_NAME}} · {{BRIDE_MOTHER_NAME}}</span>의 <span class="rank">장녀</span>
+        </p>
+        <p class="family-name">{{BRIDE_NAME}}</p>
+      </div>
+      <!-- placeholder: 두 사람 소개 문구 입력 필요 -->
+      <p class="small-copy intro-note placeholder"></p>
+    </section>
+
+    <!-- 4. CALENDAR + D-DAY -->
+    <section class="section reveal" aria-labelledby="calendar-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="calendar-title">예식 일시</h2>
+      <p class="cal-head">2027년 3월 1일 오후 12시 30분</p>
+      <table class="calendar" id="calendar" aria-label="2027년 2월 중순부터 3월 중순까지 달력, 3월 1일 예식">
+        <thead>
+          <tr><th scope="col" class="sun">일</th><th scope="col">월</th><th scope="col">화</th><th scope="col">수</th><th scope="col">목</th><th scope="col">금</th><th scope="col" class="sat">토</th></tr>
+        </thead>
+        <tbody id="calendar-body"></tbody>
+      </table>
+      <p class="cal-legend">
+        <span class="lg-dot" aria-hidden="true"></span>예식일 &nbsp;·&nbsp; <span class="lg-holiday">3/1 삼일절(공휴일)</span>
+      </p>
+      <p class="dday" aria-live="polite">
+        <span id="dday-text">D-day 계산 중</span>
+      </p>
+      <div class="btn-row cal-save">
+        <a class="btn btn-sm" id="cal-google" href="#" target="_blank" rel="noopener">구글 캘린더에 추가</a>
+        <button class="btn btn-sm" type="button" id="cal-ics">일정 파일(.ics) 저장</button>
+      </div>
+    </section>
+
+    <!-- 5. GALLERY (좌우 슬라이드) -->
+    <section class="section reveal" aria-labelledby="gallery-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="gallery-title">갤러리</h2>
+      <!-- images/gallery/NN.jpg (웹용 긴 변 1600px, 1MB 이하). 추가 방법: .claude/skills/gallery-image-resize/SKILL.md -->
+      <div class="slider" id="slider" role="region" aria-roledescription="carousel" aria-label="웨딩 사진 갤러리">
+        <div class="slider-viewport" id="slider-viewport" tabindex="0">
+          <ul class="slider-track" id="slider-track">
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 1 크게 보기">
+                <img src="images/gallery/01.jpg" alt="웨딩 사진 1" draggable="false" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 2 크게 보기">
+                <img src="images/gallery/02.jpg" alt="웨딩 사진 2" draggable="false" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 3 크게 보기">
+                <img src="images/gallery/03.jpg" alt="웨딩 사진 3" draggable="false" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 4 크게 보기">
+                <img src="images/gallery/04.jpg" alt="웨딩 사진 4" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 5 크게 보기">
+                <img src="images/gallery/05.jpg" alt="웨딩 사진 5" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 6 크게 보기">
+                <img src="images/gallery/06.jpg" alt="웨딩 사진 6" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 7 크게 보기">
+                <img src="images/gallery/07.jpg" alt="웨딩 사진 7" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 8 크게 보기">
+                <img src="images/gallery/08.jpg" alt="웨딩 사진 8" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 9 크게 보기">
+                <img src="images/gallery/09.jpg" alt="웨딩 사진 9" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 10 크게 보기">
+                <img src="images/gallery/10.jpg" alt="웨딩 사진 10" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 11 크게 보기">
+                <img src="images/gallery/11.jpg" alt="웨딩 사진 11" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 12 크게 보기">
+                <img src="images/gallery/12.jpg" alt="웨딩 사진 12" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 13 크게 보기">
+                <img src="images/gallery/13.jpg" alt="웨딩 사진 13" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 14 크게 보기">
+                <img src="images/gallery/14.jpg" alt="웨딩 사진 14" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 15 크게 보기">
+                <img src="images/gallery/15.jpg" alt="웨딩 사진 15" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 16 크게 보기">
+                <img src="images/gallery/16.jpg" alt="웨딩 사진 16" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 17 크게 보기">
+                <img src="images/gallery/17.jpg" alt="웨딩 사진 17" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 18 크게 보기">
+                <img src="images/gallery/18.jpg" alt="웨딩 사진 18" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 19 크게 보기">
+                <img src="images/gallery/19.jpg" alt="웨딩 사진 19" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 20 크게 보기">
+                <img src="images/gallery/20.jpg" alt="웨딩 사진 20" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 21 크게 보기">
+                <img src="images/gallery/21.jpg" alt="웨딩 사진 21" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 22 크게 보기">
+                <img src="images/gallery/22.jpg" alt="웨딩 사진 22" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 23 크게 보기">
+                <img src="images/gallery/23.jpg" alt="웨딩 사진 23" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 24 크게 보기">
+                <img src="images/gallery/24.jpg" alt="웨딩 사진 24" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 25 크게 보기">
+                <img src="images/gallery/25.jpg" alt="웨딩 사진 25" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 26 크게 보기">
+                <img src="images/gallery/26.jpg" alt="웨딩 사진 26" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 27 크게 보기">
+                <img src="images/gallery/27.jpg" alt="웨딩 사진 27" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+            <li class="slide" aria-roledescription="slide">
+              <button class="slide-btn" type="button" aria-label="사진 28 크게 보기">
+                <img src="images/gallery/28.jpg" alt="웨딩 사진 28" draggable="false" loading="lazy" decoding="async" onerror="this.closest('.slide').classList.add('is-empty')">
+                <span class="empty-label">사진 준비 중</span>
+              </button>
+            </li>
+          </ul>
+          <button class="slider-nav prev" id="slider-prev" type="button" aria-label="이전 사진">&#8249;</button>
+          <button class="slider-nav next" id="slider-next" type="button" aria-label="다음 사진">&#8250;</button>
+          <span class="slider-count" id="slider-count" aria-hidden="true">1 / 28</span>
+        </div>
+        <div class="slider-dots" id="slider-dots"></div>
+        <p class="slider-hint">좌우로 밀어서 넘겨 보세요</p>
+      </div>
+      <div class="gallery-more">
+        <button class="btn btn-sm" type="button" id="gallery-toggle" aria-expanded="false" aria-controls="gallery-expand">전체 사진 펼쳐 보기</button>
+      </div>
+      <div class="gallery-expand" id="gallery-expand" hidden>
+        <!-- 3x3 (한 페이지 9장). 목록은 script.js 가 채운다 -->
+        <ul class="gallery-grid" id="gallery-grid"></ul>
+        <nav class="grid-pager" id="grid-pager" aria-label="전체 사진 페이지"></nav>
+      </div>
+    </section>
+
+    <!-- 6. VENUE -->
+    <section class="section reveal" aria-labelledby="venue-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="venue-title">오시는 길</h2>
+      <p class="venue-name">선릉 르비르모어 클리타홀</p>
+      <p class="venue-addr">
+        서울특별시 강남구 테헤란로 406<br>
+        샹제리제센터 A동 2층
+      </p>
+      <figure class="map">
+        <a class="map-link" id="map-link" href="https://map.naver.com/p/search/%EB%A5%B4%EB%B9%84%EB%A5%B4%EB%AA%A8%EC%96%B4%20%EC%84%A0%EB%A6%89" target="_blank" rel="noopener" aria-label="네이버 지도에서 선릉 르비르모어 위치 보기">
+          <img src="images/naver-map.png" alt="선릉역 인근 르비르모어 위치를 표시한 지도" loading="lazy" draggable="false">
+          <span class="map-badge">네이버 지도에서 보기</span>
+        </a>
+      </figure>
+      <div class="map-apps">
+        <a class="btn btn-sm" href="https://map.kakao.com/link/search/%EB%A5%B4%EB%B9%84%EB%A5%B4%EB%AA%A8%EC%96%B4%20%EC%84%A0%EB%A6%89" target="_blank" rel="noopener">카카오맵</a>
+        <a class="btn btn-sm" href="https://map.naver.com/p/search/%EB%A5%B4%EB%B9%84%EB%A5%B4%EB%AA%A8%EC%96%B4%20%EC%84%A0%EB%A6%89" target="_blank" rel="noopener">네이버 지도</a>
+      </div>
+      <div class="venue-info">
+        <h3>지하철</h3>
+        <p>2호선 또는 수인분당선 선릉역에서 하차 후 1번 출구와 바로 연결됩니다.<br>지하 통로 이용이 가능하며, 하차 후 도보 약 1분이면 도착합니다.</p>
+
+        <h3>버스</h3>
+        <p>선릉역 정류장(정류장 번호: 23259) 하차 후 도보 약 1분 거리에 있습니다.</p>
+
+        <h3>주차</h3>
+        <p>르비르모어 웨딩홀 건물 내 주차장을 이용하실 수 있습니다.<br>하객은 2시간 무료 주차가 제공됩니다.</p>
+        <ul class="venue-notes">
+          <li>로비 안내데스크에서 주차등록이 필요합니다.</li>
+          <li>주차장 진입로가 다소 협소하오니 운전 시 참고 부탁드립니다.</li>
+        </ul>        
+        <ul class="venue-notes">
+          <li>교통이 혼잡하오니 가급적 대중교통을 권장드립니다.</li>
+        </ul>
+      </div>
+      
+    </section>
+
+    <!-- 7. ACCOUNT (신랑측 · 신부측, 본인 · 아버지 · 어머니) -->
+    <section class="section reveal" aria-labelledby="account-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="account-title">마음 전하실 곳</h2>
+      <p class="small-copy">
+        참석이 어려우신 분들을 위해<br>
+        마음 전하실 곳을 안내드립니다.
+      </p>
+      <!-- placeholder: 부모님 계좌는 은행명·계좌번호 입력 후 교체 -->
+      <details class="acc" open>
+        <summary><span>신랑측 마음 전하실 곳</span></summary>
+        <div class="acc-body">
+          <div class="acc-row">
+            <div><div class="who">신랑 {{GROOM_NAME}}</div><div class="no">{{GROOM_ACCOUNT}}</div></div>
+            <button class="copy-btn" type="button" data-copy="{{GROOM_ACCOUNT}}">복사</button>
+          </div>
+          <div class="acc-row">
+            <div><div class="who">아버지 {{GROOM_FATHER_NAME}}</div><div class="no"><span class="placeholder">{{GROOM_FATHER_ACCOUNT}}</span></div></div>
+            <button class="copy-btn" type="button" data-copy="{{GROOM_FATHER_ACCOUNT}}">복사</button>
+          </div>
+          <div class="acc-row">
+            <div><div class="who">어머니 {{GROOM_MOTHER_NAME}}</div><div class="no"><span class="placeholder">{{GROOM_MOTHER_ACCOUNT}}</span></div></div>
+            <button class="copy-btn" type="button" data-copy="{{GROOM_MOTHER_ACCOUNT}}">복사</button>
+          </div>
+        </div>
+      </details>
+      <details class="acc">
+        <summary><span>신부측 마음 전하실 곳</span></summary>
+        <div class="acc-body">
+          <div class="acc-row">
+            <div><div class="who">신부 {{BRIDE_NAME}}</div><div class="no">{{BRIDE_ACCOUNT}}</div></div>
+            <button class="copy-btn" type="button" data-copy="{{BRIDE_ACCOUNT}}">복사</button>
+          </div>
+          <div class="acc-row">
+            <div><div class="who">아버지 {{BRIDE_FATHER_NAME}}</div><div class="no"><span class="placeholder">{{BRIDE_FATHER_ACCOUNT}}</span></div></div>
+            <button class="copy-btn" type="button" data-copy="{{BRIDE_FATHER_ACCOUNT}}">복사</button>
+          </div>
+          <div class="acc-row">
+            <div><div class="who">어머니 {{BRIDE_MOTHER_NAME}}</div><div class="no"><span class="placeholder">{{BRIDE_MOTHER_ACCOUNT}}</span></div></div>
+            <button class="copy-btn" type="button" data-copy="{{BRIDE_MOTHER_ACCOUNT}}">복사</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- 7-1. CONTACTS (연락처: 전화 · 메시지 바로 연결) -->
+    <!-- placeholder: 연락처 번호는 실제 번호로 교체 -->
+    <section class="section reveal" aria-labelledby="contacts-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="contacts-title">연락처</h2>
+      <div class="contacts">
+        <div class="contact-group">
+          <p class="contact-side">신랑측</p>
+          <div class="contact-row">
+            <div class="contact-name">신랑 {{GROOM_NAME}}</div>
+            <div class="contact-actions">
+              <a class="btn btn-sm" href="tel:{{GROOM_PHONE}}" aria-label="신랑 {{GROOM_NAME}}에게 전화">전화</a>
+              <a class="btn btn-sm" href="sms:{{GROOM_PHONE}}" aria-label="신랑 {{GROOM_NAME}}에게 메시지 보내기">메시지</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-group">
+          <p class="contact-side">신부측</p>
+          <div class="contact-row">
+            <div class="contact-name">신부 {{BRIDE_NAME}}</div>
+            <div class="contact-actions">
+              <a class="btn btn-sm" href="tel:{{BRIDE_PHONE}}" aria-label="신부 {{BRIDE_NAME}}에게 전화">전화</a>
+              <a class="btn btn-sm" href="sms:{{BRIDE_PHONE}}" aria-label="신부 {{BRIDE_NAME}}에게 메시지 보내기">메시지</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8-1. GUESTBOOK -->
+    <section class="section reveal" aria-labelledby="guestbook-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="guestbook-title">방명록</h2>
+      <p class="small-copy">
+        두 사람에게 전하고 싶은 마음을 남겨 주세요.
+      </p>
+      <form class="form" id="gb-form" novalidate>
+        <label class="field">
+          <span>이름 <span class="req" aria-hidden="true">*</span></span>
+          <input type="text" name="name" required maxlength="20" autocomplete="name">
+        </label>
+        <label class="field">
+          <span>메시지 <span class="req" aria-hidden="true">*</span> <span class="count" id="gb-count">0 / 200</span></span>
+          <textarea name="message" required maxlength="200" rows="4"></textarea>
+        </label>
+        <fieldset class="field-set">
+          <legend>공개 여부</legend>
+          <div class="radio-row">
+            <label><input type="radio" name="publicOk" value="no" checked>두 사람만 보기</label>
+            <label><input type="radio" name="publicOk" value="yes">공개 동의</label>
+          </div>
+        </fieldset>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-primary btn-wide" type="submit" id="gb-submit">방명록 남기기</button>
+        <p class="form-note" id="gb-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- 8-2. GUESTBOOK LIST (공개 동의한 글, 고정 높이 스크롤) -->
+    <section class="section reveal" aria-labelledby="gb-list-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="gb-list-title">남겨 주신 메시지</h2>
+      <ul class="gb-list" id="gb-list" aria-label="공개된 방명록 목록" tabindex="0"></ul>
+      <p class="form-note" id="gb-list-status" role="status" aria-live="polite">불러오는 중…</p>
+    </section>
+
+    <!-- 9. SHARE -->
+    <section class="section section-last reveal" aria-labelledby="share-title">
+      <div class="divider" aria-hidden="true"></div>
+      <h2 class="eyebrow" id="share-title">공유</h2>
+      <div class="btn-row">
+        <button class="btn" type="button" id="share-btn">공유하기</button>
+        <button class="btn" type="button" id="link-copy-btn">링크 복사</button>
+      </div>
+      <p class="thanks">감사합니다.</p>
+    </section>
+
+  </main>
+
+  <!-- 갤러리 라이트박스 -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
+    <button class="lightbox-close" type="button" id="lightbox-close" aria-label="닫기">×</button>
+    <button class="lightbox-nav prev" id="lightbox-prev" type="button" aria-label="이전 사진">&#8249;</button>
+    <button class="lightbox-nav next" id="lightbox-next" type="button" aria-label="다음 사진">&#8250;</button>
+    <img id="lightbox-img" alt="">
+    <span class="lightbox-count" id="lightbox-count" aria-hidden="true"></span>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

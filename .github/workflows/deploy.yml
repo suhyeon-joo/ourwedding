@@ -1,0 +1,44 @@
+name: Deploy
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: npm install
+      - run: npm run build
+        env:
+          RSVP_FORM_URL: ${{ vars.RSVP_FORM_URL }}
+          GROOM_NAME: ${{ vars.GROOM_NAME }}
+          BRIDE_NAME: ${{ vars.BRIDE_NAME }}
+          GROOM_FATHER_NAME: ${{ vars.GROOM_FATHER_NAME }}
+          GROOM_MOTHER_NAME: ${{ vars.GROOM_MOTHER_NAME }}
+          BRIDE_FATHER_NAME: ${{ vars.BRIDE_FATHER_NAME }}
+          BRIDE_MOTHER_NAME: ${{ vars.BRIDE_MOTHER_NAME }}
+          GROOM_PHONE: ${{ vars.GROOM_PHONE }}
+          BRIDE_PHONE: ${{ vars.BRIDE_PHONE }}
+          GROOM_ACCOUNT: ${{ vars.GROOM_ACCOUNT }}
+          BRIDE_ACCOUNT: ${{ vars.BRIDE_ACCOUNT }}
+          GROOM_FATHER_ACCOUNT: ${{ vars.GROOM_FATHER_ACCOUNT }}
+          GROOM_MOTHER_ACCOUNT: ${{ vars.GROOM_MOTHER_ACCOUNT }}
+          BRIDE_FATHER_ACCOUNT: ${{ vars.BRIDE_FATHER_ACCOUNT }}
+          BRIDE_MOTHER_ACCOUNT: ${{ vars.BRIDE_MOTHER_ACCOUNT }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./build"
+      - id: deployment
+        uses: actions/deploy-pages@v4
